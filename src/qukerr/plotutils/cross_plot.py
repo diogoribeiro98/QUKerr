@@ -7,7 +7,8 @@ def cross_plot(*,
 		xlim   = [-8 , 8] ,
 		ylim   = [-8 , 8] ,
 		aspect = 'equal',
-		ticks_frequency = 1,	
+		ticks_frequency = 1,
+		ticks='all'	
 ):
 	
 	try:
@@ -37,9 +38,18 @@ def cross_plot(*,
 	# Create custom major ticks to determine position of tick labels
 	x_ticks = np.arange(xmin, xmax+1, ticks_frequency)
 	y_ticks = np.arange(ymin, ymax+1, ticks_frequency)
-	ax.set_xticks(x_ticks[ ((x_ticks%2) != 1) & (x_ticks != 0) ])
-	ax.set_yticks(y_ticks[ ((y_ticks%2) != 1) & (y_ticks != 0) ])
 
+	if ticks=='all':
+		ax.set_xticks(x_ticks[ (x_ticks != 0) ])
+		ax.set_yticks(y_ticks[ (y_ticks != 0) ])
+	elif ticks=='even':
+		ax.set_xticks(x_ticks[ ((x_ticks%2) != 1) & (x_ticks != 0) ])
+		ax.set_yticks(y_ticks[ ((y_ticks%2) != 1) & (y_ticks != 0) ])
+	elif ticks=='odd':
+		ax.set_xticks(x_ticks[ (((x_ticks-1)%2) != 1) & (x_ticks != 0) ])
+		ax.set_yticks(y_ticks[ (((y_ticks-1)%2) != 1) & (y_ticks != 0) ])
+	
+	
 	# Create minor ticks placed at each integer to enable drawing of minor grid
 	# lines: note that this has no effect in this example with ticks_frequency=1
 	ax.set_xticks(np.arange(xmin, xmax+1), minor=True)

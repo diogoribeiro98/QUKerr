@@ -174,3 +174,23 @@ def getGt(      alpha   ,
 
         #Calculate Gtheta according to Eq.32b of [1]
         return -(2*uplus/np.sqrt(-uminus*spin**2)) * (  2*mm*Ep - sign_beta*Epobs )
+######################
+# Radial integrals
+######################
+
+def getIr_turn( alpha   , 
+                beta    ,
+                spin    ,
+                theta   ,
+                ):
+                
+    r1 , r2 , r3 , r4 = getroots_radial(alpha , beta , spin , theta)
+
+    r31 = r3 - r1
+    r32 = r3 - r2
+    r41 = r4 - r1
+    r42 = r4 - r2
+
+    k = (r32 * r41) / (r31 * r42)
+    
+    return (2 / np.sqrt(r31 * r42))*(elliptic_F( np.arcsin(np.sqrt(r31 / r41)) , k ))

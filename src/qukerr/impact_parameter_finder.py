@@ -1,3 +1,10 @@
+#
+# Returns the impact parameter for a photon emmited from the equatorial plane
+#
+
+# Note: Unlsess stated otherwise, the equations mentioned are taken from
+#       https://journals.aps.org/prd/abstract/10.1103/PhysRevD.104.044060
+#       We shall refer to this article as Gelles et al (2021)
 
 import numpy as np
 from lmfit import Parameters, Minimizer
@@ -12,6 +19,26 @@ def rinvert(    alpha   ,
                 spin    ,
                 theta   ,
                 mbar     ):
+    """
+    Parameters
+    ----------
+    alpha : float
+        screen position in the x direction
+    beta : float
+        screen position in the y direction
+    spin : float
+        dimensionless spin a = J/a . Must be between 0 and 1.
+    theta : float
+        observer inclination in radians with respect to the BH axis. 0 corresponds to face-on.
+        pi/2 corresponds to edge-on
+    mbar : int
+        Number of winding points before photon reaches the observer
+    
+    Returns
+    -------
+    np.array
+        Angular integral Gphi
+    """
 
     # Get the angular integral Gtheta that, by definition, is equal to the radial integral Ir
     Ir = getGtheta( alpha , beta , spin , theta , mbar)
@@ -39,6 +66,32 @@ def find_impact_parameter(  r_source    ,
                             spin        ,
                             theta       ,
                             mbar        ):
+    """
+    Given the radial coordinate of the equatorial source and on-sky angle measured from
+    the alpha direction counterclockwise returns the impact parameter on the observer's
+    screen.
+    
+    Parameters
+    ----------
+    r_source : float
+        Radius of the source
+    varphi : float
+        Position on sky measured from the alpha direction torwards positive values
+        of beta
+    spin : float
+        dimensionless spin a = J/a . Must be between 0 and 1.
+    theta : float
+        observer inclination in radians with respect to the BH axis. 0 corresponds to face-on.
+        pi/2 corresponds to edge-on
+    mbar : int
+        Number of winding points before photon reaches the observer
+    
+    Returns
+    -------
+    float
+        Impact parameter of the geodesic connecting the source to the
+        observer's screen.
+    """
     
     #Define function whose root will give us the impacct parameter
     def residuals(params, radius, varphi, spin, theta, mbar):

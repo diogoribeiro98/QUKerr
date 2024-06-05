@@ -64,7 +64,7 @@ def getGtheta(  alpha   ,
 
         #Get observers cosine and associated Psi variable (See Eq.23 of [1])
         uobs = np.cos(theta)**2         
-        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)) 
+        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)+0j) 
 
         #Calculate elliptic functions
         K  = elliptic_K(uplus/uminus)
@@ -112,7 +112,7 @@ def getGphi(    alpha   ,
 
         #Get observers cosine and associated Psi variable (See Eq.23 of [1])
         uobs = np.cos(theta)**2         
-        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)) 
+        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)+0j) 
 
         #Calculate elliptical integrals 
         Pi    = elliptic_Pi_complete(uplus, uplus/uminus)
@@ -162,7 +162,7 @@ def getGt(      alpha   ,
 
         #Get observers cosine and associated Psi variable (See Eq.23 of [1])
         uobs = np.cos(theta)**2         
-        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)) 
+        Psi_obs_plus = np.arcsin(np.sqrt(uobs/uplus)+0j) 
 
         #Calculate elliptical integrals 
         Ep    = elliptic_Ep_complete(uplus/uminus)
@@ -174,6 +174,7 @@ def getGt(      alpha   ,
 
         #Calculate Gtheta according to Eq.32b of [1]
         return -(2*uplus/np.sqrt(-uminus*spin**2)) * (  2*mm*Ep - sign_beta*Epobs )
+
 ######################
 # Radial integrals
 ######################

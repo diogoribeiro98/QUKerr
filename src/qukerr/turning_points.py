@@ -117,14 +117,14 @@ def getroots_angular(   alpha       ,
     eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
 
     if spin == 0:
-        uroot = np.sqrt(eta/(eta+lam**2))
-        return -uroot,uroot
+        uroot = eta/(eta+lam**2)
+        return uroot
     else:
         if eta < 0:
             raise Exception("ERROR: Vortical motion not implemented.")
         else:
             #Roots (see equation (19) )
-            Delta = 0.5 * ( 1 - (eta + lam**2) / spin**2 ) 
+            Delta = 0.5 * ( 1.0 - (eta + lam**2) / spin**2 ) 
 
             uplus  = Delta + np.sqrt(Delta**2 + eta/spin**2)
             uminus = Delta - np.sqrt(Delta**2 + eta/spin**2)

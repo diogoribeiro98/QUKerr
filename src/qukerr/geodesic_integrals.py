@@ -6,26 +6,26 @@ def deltaPhi(alpha , beta , spin , theta , r_source , mbar):
     
     varphi = np.arctan2(beta, alpha)
 	
-    #If not spinning return simple result (motion on a plane)
+    #If not spinning return Schwarzschild result
     if spin == 0:
-        pa = np.arctan2(np.sin(varphi), np.cos(varphi) * np.cos(theta)) + mbar*np.pi
-        return np.mod(pa,2*np.pi)
+        lam = -alpha * np.sin(theta)
+        delta_phi = -lam*getGphi(alpha,beta,0.0,theta,mbar)
+        return np.mod(delta_phi-np.pi/2,2*np.pi)
     else:
         
-        #If on-axis
+        #If on-axis, return limit result
         if theta == 0:
             Iphi = getIphiIntegrate(alpha , beta , spin , theta , r_source , mbar)
-            pa =  varphi - np.real(Iphi) - mbar*np.pi
-
-            return np.mod(pa,2*np.pi)
+            delta_phi =  varphi - np.real(Iphi) - mbar*np.pi
+            return np.mod(delta_phi,2*np.pi)
 
         else:
 
             lam = -alpha * np.sin(theta)
-
+            
             Gphi = getGphi(alpha , beta , spin , theta , mbar)
             Iphi = getIphiIntegrate(alpha , beta , spin , theta , r_source , mbar)
             
-            pa = -np.real(Iphi + lam*Gphi)
+            delta_phi = -np.real(Iphi + lam*Gphi)
             
-            return np.mod(pa,2*np.pi)
+            return np.mod(delta_phi-np.pi/2,2*np.pi)

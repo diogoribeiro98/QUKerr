@@ -233,9 +233,15 @@ def get_sign_pr(b , spin , theta , varphi , mbar):
         alpha = b*np.cos(varphi)
         beta  = b*np.sin(varphi)
     
-        #mm = mbar-1 if beta*np.cos(theta) < 0 else mbar
+        # Note: the sign condition depends on m
+        #       and not mbar. Hence we need to 
+        #       evaluate the two cases
 
-        Gtheta   = getGtheta( alpha , beta , spin , theta , mbar)
+        if beta*np.cos(theta) > 0:
+            Gtheta   = getGtheta( alpha , beta , spin , theta , mbar-1)
+        else:
+            Gtheta   = getGtheta( alpha , beta , spin , theta , mbar)
+            
         Ir_turn  = getIr_turn( alpha , beta , spin , theta )
         
         return int(np.sign(np.real(Ir_turn - Gtheta)))

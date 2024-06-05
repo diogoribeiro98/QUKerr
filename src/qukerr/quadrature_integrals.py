@@ -14,14 +14,11 @@
 #
 #       [3] 'Polarized image of qeuatorial emission in the Kerr geometry' by Gelles et. al 2021:    
 #            https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
-#       
-#
+#      
 
 #Import libs
 import numpy as np
-from .turning_points import *
-
-#Import user defined elliptical functions
+from .turning_points    import *
 from .special_functions import elliptic_F , elliptic_K 
 from .special_functions import elliptic_Pi , elliptic_Pi_complete
 from .special_functions import elliptic_Ep,  elliptic_Ep_complete
@@ -35,6 +32,23 @@ def getGtheta(  alpha   ,
                 spin    ,
                 theta   ,
                 mbar    ):
+    """
+    Returns the theta coordinate quadrature integral Gtheta for sources on the equatorial
+    plane. For a discussion of how this integral is calculated see Section II.A of the paper
+
+    'Lensing by Kerr Black Holes' by S.Gralla & A.Lupsasca 2020:
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+
+    Args:
+        alpha (float): screen position in the x direction
+        beta  (float): screen position in the y direction
+        spin  (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+        mbar    (int): Number of winding points before photon reaches the observer
+
+    Returns:
+        _float_: Angular integral Gtheta
+    """    
 
     #If not spinning, use simpler Schwarzchild formula (See Eqs. 26 of [1])
     if spin == 0:
@@ -83,7 +97,23 @@ def getGphi(    alpha   ,
                 spin    ,
                 theta   ,
                 mbar     ):
+    """
+    Returns the phi coordinate quadrature integral Gphi for sources on the equatorial
+    plane. For a discussion of how this integral is calculated see Section II.A of the paper
 
+    'Lensing by Kerr Black Holes' by S.Gralla & A.Lupsasca 2020:
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+
+    Args:
+        alpha (float): screen position in the x direction
+        beta  (float): screen position in the y direction
+        spin  (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+        mbar    (int): Number of winding points before photon reaches the observer
+
+    Returns:
+        _float_: Angular integral Gphi
+    """   
     #If not spinning, use simpler Schwarzchild formula (See Eqs. 26 of [1])
     if spin == 0:
 
@@ -130,6 +160,23 @@ def getGt(      alpha   ,
                 spin    ,
                 theta   ,
                 mbar     ):
+    """
+    Returns the t coordinate quadrature integral Gt for sources on the equatorial
+    plane. For a discussion of how this integral is calculated see Section II.A of the paper
+
+    'Lensing by Kerr Black Holes' by S.Gralla & A.Lupsasca 2020:
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+
+    Args:
+        alpha (float): screen position in the x direction
+        beta  (float): screen position in the y direction
+        spin  (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+        mbar    (int): Number of winding points before photon reaches the observer
+
+    Returns:
+        _float_: Angular integral Gt
+    """   
 
     #If not spinning, use simpler Schwarzchild formula (See Eqs. 26 of [1])
     if spin == 0:
@@ -182,8 +229,22 @@ def getGt(      alpha   ,
 def getIr_turn( alpha   , 
                 beta    ,
                 spin    ,
-                theta   ,
-                ):
+                theta   ):
+    """
+    Returns the of the radial integral Ir evaluated between the radial turning point of a 
+    photon's trajectory and infinity. For a discussion see Appendix A of the paper
+
+    'Polarized image of qeuatorial emission in the Kerr geometry' by Gelles et. al 2021:    
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+    
+    Args:
+        alpha (float): screen position in the x direction
+        beta  (float): screen position in the y direction
+        spin  (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+    Returns:
+        _float_:  Radial integral Ir evaluated between the radial turning point of a photon's trajectory and infinity
+    """    
                 
     r1 , r2 , r3 , r4 = getroots_radial(alpha , beta , spin , theta)
 

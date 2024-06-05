@@ -1,9 +1,13 @@
+#
+# Numerically calculated quadrature integrals associated with 
+# Null geodesics in Kerr by numerically integrating them
+#
 
 import numpy as np
 from scipy import integrate
 
 from .turning_points import getroots_radial, getroots_angular
-from .critical_parameters import get_sign_pr
+from .critical_parameters import get_sign_pr, get_critical_parameters
 from .potentials import RadialP,AngularP,Delta
 
 ######################
@@ -101,27 +105,32 @@ def getIphiIntegrate(   alpha   ,
         _float_:  Radial integral Iphi evaluated between the source radius and infinity
     """
 
-    #Photon conserved quantities
+    #Photon conserved quantities and on-sky quantities
     lam = -alpha * np.sin(theta)
     eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
         
+    b = np.sqrt(alpha**2 + beta**2)
+    varphi = np.arctan2(beta, alpha)
+    
     def Iphi_Integrand(spin, eta, lam):
         return lambda r: spin*(2*r-spin*lam)/( Delta(r,spin) * np.sqrt( RadialP(r,spin,eta,lam) ) )
 
     #Define integrand (see equation 8c of 'Lensing by BHs')          
     Integrand = Iphi_Integrand(spin, eta, lam)
     I1 = integrate.quad(Integrand, radius, np.inf)[0]
-
-    # Get impact parameters and sign of the photon
-    b = np.sqrt(alpha**2 + beta**2)
-    varphi = np.arctan2(beta, alpha)
-
-
-    sgn_pr = get_sign_pr(b , spin , theta , varphi , mbar)
-
-    if sgn_pr > 0:
-            return I1
+    
+    #Get critical parameter
+    bc = get_critical_parameters(spin , theta , varphi)[1]
+    
+    if b < bc:
+        return I1
     else:
-        r4 = getroots_radial(alpha , beta , spin , theta)[3]
-        I2 = integrate.quad(Integrand, r4.real, radius)[0]
-        return (I1+2*I2)
+        sign_pr = get_sign_pr(b , spin , theta , varphi , mbar)
+
+        if sign_pr==1:
+            return I1
+        elif sign_pr==-1:
+            r4 = getroots_radial(alpha , beta , spin , theta)[3]
+            I2 = integrate.quad(Integrand, r4.real, radius)[1]
+            return (I1+2*I2)
+      

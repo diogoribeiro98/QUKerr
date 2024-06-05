@@ -14,7 +14,26 @@ def getGphiIntegrate(   alpha   ,
                         beta    ,
                         spin    ,
                         theta   ,
-                        mbar    ):
+                        mbar    ): 
+    """
+    Numerically evaluates the angular integral Gphi evaluated between a source and an observer at infinity.
+    For a discussion of how this is calculated see the paper
+
+    'Lensing by Kerr Black Holes' by S.Gralla & A.Lupsasca 2020:
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+
+    For a analytic alternative see the function getGphi
+
+    Args:
+        alpha (float): screen position in the x direction
+        beta  (float): screen position in the y direction
+        spin  (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+        mbar    (int): Number of winding points before photon reaches the observer
+
+    Returns:
+        _float_:  Radial integral Iphi evaluated between the source radius and infinity
+    """
 
     #Photon conserved quantities
     lam = -alpha * np.sin(theta)
@@ -63,6 +82,24 @@ def getIphiIntegrate(   alpha   ,
                         theta   ,
                         radius  ,
                         mbar    ):
+    """
+    Numerically evaluates the radial integral Iphi evaluated between a source and an observer at infinity.
+    For a discussion of how this is calculated see the paper
+
+    'Lensing by Kerr Black Holes' by S.Gralla & A.Lupsasca 2020:
+     https://journals.aps.org/prd/abstract/10.1103/PhysRevD.101.044031
+
+    Args:
+        alpha  (float): screen position in the x direction
+        beta   (float): screen position in the y direction
+        spin   (float): dimensionless spin a = J/a . Must be between 0 and 1.
+        theta  (float): observer inclination in radians with respect to the BH axis. 0 corresponds to face-on. pi/2 corresponds to edge-on
+        radius (float): source radius
+        mbar     (int): Number of winding points before photon reaches the observer
+
+    Returns:
+        _float_:  Radial integral Iphi evaluated between the source radius and infinity
+    """
 
     #Photon conserved quantities
     lam = -alpha * np.sin(theta)

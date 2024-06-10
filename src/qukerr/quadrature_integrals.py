@@ -64,8 +64,8 @@ def getGtheta(  alpha   ,
         uobs = np.cos(theta)**2
 
         #Account for subtle counting of turning points and signn of beta
-        mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
+        sign_beta = np.sign(beta*np.cos(theta))
+        mm = mbar+1 if sign_beta > 0 else mbar
         
         #Calculate Gtheta according to Eq. 26a of [1]
         return np.sqrt(uroot/eta) * ( np.pi*mm - sign_beta*np.arcsin( np.sqrt(uobs/uroot) ) )  
@@ -85,8 +85,8 @@ def getGtheta(  alpha   ,
         F0 = elliptic_F( Psi_obs_plus, uplus/uminus)
     
         #Account for subtle counting of turning points and signn of beta
-        mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
+        sign_beta = np.sign(beta*np.cos(theta))
+        mm = mbar+1 if sign_beta > 0 else mbar
 
         #Calculate Gtheta according to Eq.32a of [1]
         return (1/np.sqrt(-uminus*spin**2)) * (2*mm*K - sign_beta*F0 )
@@ -128,8 +128,8 @@ def getGphi(    alpha   ,
         uobs = np.cos(theta)**2
 
         #Account for subtle counting of turning points and signn of beta
-        mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
+        sign_beta = np.sign(beta*np.cos(theta))
+        mm = mbar+1 if sign_beta > 0 else mbar
 
         #Calculate Gtheta according to Eq.26b of [1]
         return np.sqrt( uroot / (eta*(1-uroot))) * (np.pi*mm - sign_beta*np.arcsin( np.sqrt((uobs/uroot)*(1-uroot)/(1-uobs))))
@@ -191,8 +191,8 @@ def getGt(      alpha   ,
         uobs = np.cos(theta)**2
 
         #Account for subtle counting of turning points and signn of beta
-        mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
+        sign_beta = np.sign(beta*np.cos(theta))
+        mm = mbar+1 if sign_beta > 0 else mbar
 
         #Calculate Gtheta
         Gtheta = getGtheta(alpha, beta, 0.0, theta, mbar)
@@ -215,8 +215,8 @@ def getGt(      alpha   ,
         Epobs = elliptic_Ep(Psi_obs_plus, uplus/uminus  )
 
         #Account for subtle counting of turning points and signn of beta
-        mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
+        sign_beta = np.sign(beta*np.cos(theta))
+        mm = mbar+1 if sign_beta > 0 else mbar
 
         #Calculate Gtheta according to Eq.32b of [1]
         return -(2*uplus/np.sqrt(-uminus*spin**2)) * (  2*mm*Ep - sign_beta*Epobs )

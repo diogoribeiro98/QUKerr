@@ -147,7 +147,7 @@ def find_impact_parameter(  r_source    ,
         
     #Fitting parameters
     params = Parameters()
-    params.add('b' , value=b_guess, min = spin**2*np.cos(theta))
+    params.add('b' , value=b_guess, min = spin**2 * np.abs(np.cos(theta)))
 
     #Create minimizer and find root
     fitter = Minimizer(residuals, params, fcn_args=(r_source, varphi, spin, theta, mbar))

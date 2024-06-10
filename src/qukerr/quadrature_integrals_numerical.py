@@ -9,6 +9,7 @@ from scipy import integrate
 from .turning_points import getroots_radial, getroots_angular
 from .critical_parameters import get_sign_pr, get_critical_parameters
 from .potentials import RadialP,AngularP,Delta
+from .potentials import get_photon_conserved_quantities
 
 ######################
 # Angular Integrals
@@ -40,9 +41,8 @@ def getGphiIntegrate(   alpha   ,
     """
 
     #Photon conserved quantities
-    lam = -alpha * np.sin(theta)
-    eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
-
+    lam, eta = get_photon_conserved_quantities(alpha,beta,theta,spin)
+    
     #Get angular roots u+ and u-
     uplus , _ = getroots_angular(alpha , beta , spin , theta)
 
@@ -106,8 +106,8 @@ def getIphiIntegrate(   alpha   ,
     """
 
     #Photon conserved quantities and on-sky quantities
-    lam = -alpha * np.sin(theta)
-    eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
+    lam, eta = get_photon_conserved_quantities(alpha,beta,theta,spin)
+
         
     b = np.sqrt(alpha**2 + beta**2)
     varphi = np.arctan2(beta, alpha)

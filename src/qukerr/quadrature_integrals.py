@@ -22,6 +22,7 @@ from .turning_points    import *
 from .special_functions import elliptic_F , elliptic_K 
 from .special_functions import elliptic_Pi , elliptic_Pi_complete
 from .special_functions import elliptic_Ep,  elliptic_Ep_complete
+from .potentials import get_photon_conserved_quantities
 
 ######################
 # Angular Integrals
@@ -54,8 +55,7 @@ def getGtheta(  alpha   ,
     if spin == 0:
 
         #Calculate photon conserved quantities
-        lam = -alpha * np.sin(theta)
-        eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
+        lam, eta = get_photon_conserved_quantities(alpha,beta,theta,spin)
 
         #Angular root (see Eq.22 of [1])
         uroot = eta/(eta+lam**2)
@@ -182,8 +182,8 @@ def getGt(      alpha   ,
     if spin == 0:
 
         #Calculate photon conserved quantities
-        lam = -alpha * np.sin(theta)
-        eta = (alpha**2 - spin**2) * np.cos(theta)**2 + beta**2
+        lam, eta = get_photon_conserved_quantities(alpha,beta,theta,spin)
+
         
         #Angular root (see Eq.22 of [1])
         uroot = eta/(eta+lam**2)

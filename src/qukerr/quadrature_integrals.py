@@ -65,7 +65,7 @@ def getGtheta(  alpha   ,
 
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
         
         #Calculate Gtheta according to Eq. 26a of [1]
         return np.sqrt(uroot/eta) * ( np.pi*mm - sign_beta*np.arcsin( np.sqrt(uobs/uroot) ) )  
@@ -86,7 +86,7 @@ def getGtheta(  alpha   ,
     
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
 
         #Calculate Gtheta according to Eq.32a of [1]
         return (1/np.sqrt(-uminus*spin**2)) * (2*mm*K - sign_beta*F0 )
@@ -129,7 +129,7 @@ def getGphi(    alpha   ,
 
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
 
         #Calculate Gtheta according to Eq.26b of [1]
         return np.sqrt( uroot / (eta*(1-uroot))) * (np.pi*mm - sign_beta*np.arcsin( np.sqrt((uobs/uroot)*(1-uroot)/(1-uobs))))
@@ -150,7 +150,7 @@ def getGphi(    alpha   ,
         
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
 
         #Calculate Gtheta according to Eq.32b of [1]
         return (1/np.sqrt(-uminus*spin**2)) * (  2*mm * Pi - sign_beta*Piobs )
@@ -184,7 +184,6 @@ def getGt(      alpha   ,
         #Calculate photon conserved quantities
         lam, eta = get_photon_conserved_quantities(alpha,beta,theta,spin)
 
-        
         #Angular root (see Eq.22 of [1])
         uroot = eta/(eta+lam**2)
 
@@ -193,7 +192,7 @@ def getGt(      alpha   ,
 
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
 
         #Calculate Gtheta
         Gtheta = getGtheta(alpha, beta, 0.0, theta, mbar)
@@ -217,7 +216,7 @@ def getGt(      alpha   ,
 
         #Account for subtle counting of turning points and signn of beta
         mm = mbar if beta*np.cos(theta) < 0 else mbar+1
-        sign_beta = 1 if beta >= 0 else -1
+        sign_beta = 1 if beta*np.cos(theta) >= 0 else -1
 
         #Calculate Gtheta according to Eq.32b of [1]
         return -(2*uplus/np.sqrt(-uminus*spin**2)) * (  2*mm*Ep - sign_beta*Epobs )
